@@ -5,7 +5,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
 
 if __name__ == '__main__':
-    dm = PreprocessorClass(preprocessed_dir = "https://github.com/zachisoni/bert_classiffication_sem3/tree/main/data/preprocessed",
+    dm = PreprocessorClass(preprocessed_dir = "data/preprocessed",
                            batch_size = 100,
                            max_length = 100)
 
@@ -21,7 +21,7 @@ if __name__ == '__main__':
     trainer = pl.Trainer(
         gpus = 1,
         max_epochs = 10,
-        default_root_dir = "https://github.com/zachisoni/bert_classiffication_sem3/tree/main/checkpoints/class"
+        default_root_dir = "checkpoints/class"
     )
 
     trainer.fit(model, datamodule = dm)
