@@ -1,4 +1,4 @@
-from utils.preprocessor_class import PreprocessorClass
+from utils.preprocessor import PreprocessorClass
 from models.multi_class_model import MultiClassModel
 
 import pytorch_lightning as pl
