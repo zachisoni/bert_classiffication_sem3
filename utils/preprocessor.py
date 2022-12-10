@@ -169,7 +169,7 @@ class PreprocessorClass(pl.LightningDataModule):
         )
 
     def val_dataloader(self):
-        sampler = RandomSampler(self.valid_data)
+        sampler = SequentialSampler(self.valid_data)
         return DataLoader(
             dataset = self.valid_data,
             batch_size = self.batch_size,
@@ -178,7 +178,7 @@ class PreprocessorClass(pl.LightningDataModule):
         )
 
     def predict_dataloader(self):
-        sampler = RandomSampler(self.train_data)
+        sampler = SequentialSampler(self.train_data)
         return DataLoader(
             dataset = self.test_data,
             batch_size = self.batch_size,
@@ -187,9 +187,9 @@ class PreprocessorClass(pl.LightningDataModule):
         )
 
 
-if __name__ == '__main__':
-    Pre = PreprocessorClass(preprocessed_dir = "data/preprocessed")
-    Pre.setup(stage = "fit")
-    train_data = Pre.train_dataloader()
-    print(train_data)
+# if __name__ == '__main__':
+#     Pre = PreprocessorClass(preprocessed_dir = "data/preprocessed")
+#     Pre.setup(stage = "fit")
+#     train_data = Pre.train_dataloader()
+#     print(train_data)
 
