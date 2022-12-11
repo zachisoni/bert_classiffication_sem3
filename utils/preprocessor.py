@@ -20,6 +20,7 @@ class PreprocessorClass(pl.LightningDataModule):
                 preprocessed_dir,
                 batch_size = 10,
                 max_length = 100):
+        super(PreprocessorClass, self).__init__()
         #variable label2id untuk mapping
         self.label2id = {
             'bola' : 0,
@@ -63,10 +64,10 @@ class PreprocessorClass(pl.LightningDataModule):
        #keyword with seperti try..exception tetapi pada proses file
         with open("bert_classification_sem3/data/training.res", "rb") as tdr:
             train_pkl = pickle.load(tdr)
-            train = pd.DataFrame({'title':train_pkl[0], 'label' : train_pkl[1]})
+            train = pd.DataFrame({'title':train_pkl[0], 'label': train_pkl[1]})
         with open("bert_classification_sem3/data/testing.res", "rb") as tsdr:
             test_pkl = pickle.load(tsdr)
-            test = pd.DataFrame({'title': test_pkl[0], 'label' : test_pkl[1]})
+            test = pd.DataFrame({'title': test_pkl[0], 'label': test_pkl[1]})
 
         
         #mapping masing-masing label dengan angka 
@@ -109,7 +110,7 @@ class PreprocessorClass(pl.LightningDataModule):
                 break
         
         x_input_ids = torch.tensor(x_input_ids)
-        x_token_type_ids  = torch.tensor(x_token_type_ids)
+        x_token_type_ids = torch.tensor(x_token_type_ids)
         x_attention_mask = torch.tensor(x_attention_mask)
         y = torch.tensor(y)
 
