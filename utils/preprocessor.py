@@ -21,6 +21,7 @@ class PreprocessorClass(pl.LightningDataModule):
                 preprocessed_dir,
                 batch_size = 10,
                 max_length = 100):
+        super(PreprocessorClass, self).__init__()
         #variable label2id untuk mapping
         self.label2id = {
             'bola' : 0,
