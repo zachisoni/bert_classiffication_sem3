@@ -178,7 +178,7 @@ class PreprocessorClass(pl.LightningDataModule):
         )
 
     def predict_dataloader(self):
-        sampler = SequentialSampler(self.train_data)
+        sampler = SequentialSampler(self.test_data)
         return DataLoader(
             dataset = self.test_data,
             batch_size = self.batch_size,
