@@ -1,19 +1,18 @@
 import pickle
-import re
 import torch
 import os
+
+import re
+
+from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
 
 import pytorch_lightning as pl
 import pandas as pd
 
-from select import select
-from shutil import which
-from numpy import mat
 from Sastrawi.Stemmer.StemmerFactory import StemmerFactory
-
-from torch.utils.data import TensorDataset, DataLoader, RandomSampler, SequentialSampler
-from tqdm import tqdm
 from transformers import BertTokenizer
+
+from tqdm import tqdm
 
 class PreprocessorClass(pl.LightningDataModule):
 
@@ -30,11 +29,12 @@ class PreprocessorClass(pl.LightningDataModule):
             'otomotif' : 4
         }
         factory = StemmerFactory()
-        self.stemmer = factory.create_stemmer() 
+        self.stemmer = factory.create_stemmer()
 
         self.tokenizer = BertTokenizer.from_pretrained('indolem/indobert-base-uncased')
         self.max_length = max_length
         self.preprocessed_dir = preprocessed_dir
+
         self.batch_size = batch_size
 
 
@@ -85,7 +85,7 @@ class PreprocessorClass(pl.LightningDataModule):
         #2. Tokenizing : mengubah kata-kata menjadi id
         #3. Arrage ke dataset  (training, validation, testing)
 
-        x_input_ids, x_token_type_id, x_attention_mask, y = [], [], [], []
+        x_input_ids, x_token_type_ids, x_attention_mask, y = [], [], [], []
         
         for baris, dt in enumerate(tqdm(data.values.tolist())):
             title = self.clean_str(dt[0])
@@ -101,7 +101,7 @@ class PreprocessorClass(pl.LightningDataModule):
 
             # print(tkn["input_ids"])
             x_input_ids.append(tkn['input_ids'])
-            x_token_type_id.append(tkn['token_type_ids'])
+            x_token_type_ids.append(tkn['token_type_ids'])
             x_attention_mask.append(tkn['attention_mask'])
             y.append(binary_lbl)
 
@@ -109,12 +109,12 @@ class PreprocessorClass(pl.LightningDataModule):
                 break
         
         x_input_ids = torch.tensor(x_input_ids)
-        x_token_type_id  = torch.tensor(x_token_type_id)
+        x_token_type_ids  = torch.tensor(x_token_type_ids)
         x_attention_mask = torch.tensor(x_attention_mask)
         y = torch.tensor(y)
 
         tensor_dataset = TensorDataset(x_input_ids,
-                                       x_token_type_id,
+                                       x_token_type_ids,
                                        x_attention_mask,
                                        y)
         
@@ -128,10 +128,10 @@ class PreprocessorClass(pl.LightningDataModule):
             
             return train_tensor_dataset, valid_tensor_dataset
         else :
-            torch.save(tensor_dataset, f"{self.preprocessed_dir}/valid.pt")
+            torch.save(tensor_dataset, f"{self.preprocessed_dir}/test.pt")
             return tensor_dataset
 
-    def preprocessor(self,):
+    def preprocessor(self):
         train, test = self.load_data()
 
         if not os.path.exists(f"{self.preprocessed_dir}/train.pt") or not os.path.exists(f"{self.preprocessed_dir}/valid.pt"):
@@ -147,7 +147,7 @@ class PreprocessorClass(pl.LightningDataModule):
             test_data = self.arrange_data(data = test, type = "test")
         else :
             print("Load Preprocessed test data")
-            test_data = torch.load(f"{self.preprocessed_dir}/valid.pt")
+            test_data = torch.load(f"{self.preprocessed_dir}/test.pt")
 
         return train_data, valid_data, test_data
 
