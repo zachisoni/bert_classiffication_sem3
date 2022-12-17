@@ -20,9 +20,13 @@ def collect_parser():
     return parser.parse_args()
 
 if __name__ == '__main__':
-    dm = PreprocessorClass(preprocessed_dir = "bert_classification_sem3/sata/preprocessed",
-                           batch_size = 100,
-                           max_length = 100)
+    args = collect_parser()
+
+    dm = PreprocessorClass(preprocessed_dir = "data/preprocessed",
+                           train_data_dir= args.train_data_dir,
+                           test_data_dir= args.test_data_size,
+                           batch_size = args.batch_size,
+                           max_length = args.max_length)
 
     # Learning rate diganti 1e-3 ke 1e-5
     model = MultiClassModel(
@@ -34,9 +38,12 @@ if __name__ == '__main__':
     logger = TensorBoardLogger("logs", name="bert-multi-class")
 
     trainer = pl.Trainer(
-        gpus = 1,
+        accelerator= args.accelerator,
+        gpus = args.gpu_id,
+        num_nodes=args.num_nodes,
         max_epochs = 10,
-        default_root_dir = "bert_classification_sem3/checkpoints/class"
+        default_root_dir = "checkpoints/class",
+        logger= logger
     )
 
     trainer.fit(model, datamodule = dm)
