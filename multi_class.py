@@ -21,7 +21,7 @@ if __name__ == '__main__':
     trainer = pl.Trainer(
         gpus = 1,
         max_epochs = 10,
-        default_root_dir = "checkpoints/class"
+        default_root_dir = "bert_classification_sem3/checkpoints/class"
     )
 
     trainer.fit(model, datamodule = dm)

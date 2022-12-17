@@ -62,10 +62,10 @@ class PreprocessorClass(pl.LightningDataModule):
     #memuat data sesuai dengan file yg ada dan memasukkan menjadi variable setelah as 
     def load_data(self,):
        #keyword with seperti try..exception tetapi pada proses file
-        with open("data/training.res", "rb") as tdr:
+        with open("bert_classification_sem3/data/training.res", "rb") as tdr:
             train_pkl = pickle.load(tdr)
             train = pd.DataFrame({'title':train_pkl[0], 'label' : train_pkl[1]})
-        with open("data/testing.res", "rb") as tsdr:
+        with open("bert_classification_sem3/data/testing.res", "rb") as tsdr:
             test_pkl = pickle.load(tsdr)
             test = pd.DataFrame({'title': test_pkl[0], 'label' : test_pkl[1]})
 
