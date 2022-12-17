@@ -5,7 +5,7 @@ import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
 
 if __name__ == '__main__':
-    dm = PreprocessorClass(preprocessed_dir = "bert_classification_sem3/ata/preprocessed",
+    dm = PreprocessorClass(preprocessed_dir = "bert_classification_sem3/sata/preprocessed",
                            batch_size = 100,
                            max_length = 100)
 
