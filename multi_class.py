@@ -22,7 +22,7 @@ def collect_parser():
 if __name__ == '__main__':
     args = collect_parser()
 
-    dm = PreprocessorClass(preprocessed_dir = "data/preprocessed",
+    dm = PreprocessorClass(preprocessed_dir = "bert_classification_sem3/data/preprocessed",
                            train_data_dir= args.train_data_dir,
                            test_data_dir= args.test_data_size,
                            batch_size = args.batch_size,
@@ -42,7 +42,7 @@ if __name__ == '__main__':
         gpus = args.gpu_id,
         num_nodes=args.num_nodes,
         max_epochs = 10,
-        default_root_dir = "checkpoints/class",
+        default_root_dir = "bert_classification_sem3/checkpoints/class",
         logger= logger
     )
 
