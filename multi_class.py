@@ -42,7 +42,8 @@ if __name__ == '__main__':
         gpus = args.gpu_id,
         num_nodes=args.num_nodes,
         max_epochs = 10,
-        default_root_dir = "checkpoints/class"
+        default_root_dir = "checkpoints/class",
+        logger= logger
     )
 
     trainer.fit(model, datamodule = dm)
