@@ -15,8 +15,8 @@ def collect_parser():
     parser.add_argument("--num_nodes", type=int, default=1)
     parser.add_argument("--batch_size", type=int, default=10)
     parser.add_argument("--max_length", type=int, default=100)
-    parser.add_argument("--test_data_dir", type=str, default="bert_classification_sem3data/testing.res")
-    parser.add_argument("--train_data_dir", type=str, default="bert_classification_sem3data/training.res")
+    parser.add_argument("--test_data_dir", type=str, default="bert_classification_sem3/data/testing.res")
+    parser.add_argument("--train_data_dir", type=str, default="bert_classification_sem3/data/training.res")
 
     return parser.parse_args()
 
