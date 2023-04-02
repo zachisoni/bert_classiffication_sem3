@@ -145,4 +145,4 @@ class MultiClassModel(pl.LightningModule):
         
         acc = self.accuracy(predictions, labels)
         f1_score = self.f1(predictions, labels)
-    print("Overall Testing Accuracy : ", acc , "| F1 Score : ", f1_score)
+        print("Overall Testing Accuracy : ",acc , "| F1 Score : ", f1_score)
