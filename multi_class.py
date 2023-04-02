@@ -11,7 +11,7 @@ def collect_parser():
     parser = argparse.ArgumentParser()
 
     parser.add_argument("--accelerator", type=str, default='gpu')
-    parser.add_argument("--gpu_id", type=int, default=0)
+    parser.add_argument("--gpu_id", type=str, default='cuda')
     parser.add_argument("--num_nodes", type=int, default=1)
     parser.add_argument("--batch_size", type=int, default=10)
     parser.add_argument("--max_length", type=int, default=100)
