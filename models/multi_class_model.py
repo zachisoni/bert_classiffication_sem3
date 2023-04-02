@@ -12,7 +12,8 @@ class MultiClassModel(pl.LightningModule):
     def __init__(self,
                  dropout,
                  n_out,
-                 lr) -> None:
+                 lr,
+                 max_epoch) -> None:
         super(MultiClassModel, self).__init__()
 
         torch.manual_seed(1)
@@ -27,6 +28,7 @@ class MultiClassModel(pl.LightningModule):
 
         self.lr = lr
         self.criterion = nn.BCEWithLogitsLoss()
+        self.max_epoch = max_epoch
 
     
     def forward(self, input_ids, attention_mask, token_type_ids):
