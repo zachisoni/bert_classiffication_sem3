@@ -168,21 +168,21 @@ class PreprocessorClass(pl.LightningDataModule):
             dataset = train_data,
             batch_size = self.batch_size,
             sampler = train_sampler,
-            num_workers = 3
+            num_workers = 2
         )
 
         valid_dataset = DataLoader(
             dataset = valid_data,
             batch_size = self.batch_size,
             sampler = valid_sampler,
-            num_workers = 3
+            num_workers = 2
         )
 
         test_dataset = DataLoader(
             dataset = test_data,
             batch_size = self.batch_size,
             sampler = test_sampler,
-            num_workers = 3
+            num_workers = 2
         )
 
         return train_dataset, valid_dataset, test_dataset
