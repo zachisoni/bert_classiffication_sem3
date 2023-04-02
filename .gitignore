@@ -1,4 +1,3 @@
 checkpoints/
-data/preprocessed
 models/__pycache__
 utils/__pycache__
