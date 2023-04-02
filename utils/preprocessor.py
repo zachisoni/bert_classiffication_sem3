@@ -156,41 +156,72 @@ class PreprocessorClass(pl.LightningDataModule):
 
         return train_data, valid_data, test_data
 
-    def setup(self, stage = None):
+    def preprocessor_manual(self):
         train_data, valid_data, test_data = self.preprocessor()
-        if stage == "fit" :
-            self.train_data = train_data
-            self.valid_data = valid_data
-        elif stage == "predict":
-            self.test_data = test_data
+
+
+        train_sampler = RandomSampler(train_data)
+        valid_sampler = SequentialSampler(valid_data)
+        test_sampler = SequentialSampler(test_data)
+
+        train_dataset = DataLoader(
+            dataset = train_data,
+            batch_size = self.batch_size,
+            sampler = train_sampler,
+            num_workers = 3
+        )
+
+        valid_dataset = DataLoader(
+            dataset = valid_data,
+            batch_size = self.batch_size,
+            sampler = valid_sampler,
+            num_workers = 3
+        )
+
+        test_dataset = DataLoader(
+            dataset = test_data,
+            batch_size = self.batch_size,
+            sampler = test_sampler,
+            num_workers = 3
+        )
+
+        return train_dataset, valid_dataset, test_dataset
+
+    # def setup(self, stage = None):
+    #     train_data, valid_data, test_data = self.preprocessor()
+    #     if stage == "fit" :
+    #         self.train_data = train_data
+    #         self.valid_data = valid_data
+    #     elif stage == "predict":
+    #         self.test_data = test_data
     
-    def train_dataloader(self):
-        sampler = RandomSampler(self.train_data)
-        return DataLoader(
-            dataset = self.train_data,
-            batch_size = self.batch_size,
-            shuffle= True,
-            sampler = sampler,
-            num_workers = 3
-        )
+    # def train_dataloader(self):
+    #     sampler = RandomSampler(self.train_data)
+    #     return DataLoader(
+    #         dataset = self.train_data,
+    #         batch_size = self.batch_size,
+    #         shuffle= True,
+    #         sampler = sampler,
+    #         num_workers = 3
+    #     )
 
-    def val_dataloader(self):
-        sampler = SequentialSampler(self.valid_data)
-        return DataLoader(
-            dataset = self.valid_data,
-            batch_size = self.batch_size,
-            sampler = sampler,
-            num_workers = 3
-        )
+    # def val_dataloader(self):
+    #     sampler = SequentialSampler(self.valid_data)
+    #     return DataLoader(
+    #         dataset = self.valid_data,
+    #         batch_size = self.batch_size,
+    #         sampler = sampler,
+    #         num_workers = 3
+    #     )
 
-    def predict_dataloader(self):
-        sampler = SequentialSampler(self.test_data)
-        return DataLoader(
-            dataset = self.test_data,
-            batch_size = self.batch_size,
-            sampler = sampler,
-            num_workers = 3
-        )
+    # def predict_dataloader(self):
+    #     sampler = SequentialSampler(self.test_data)
+    #     return DataLoader(
+    #         dataset = self.test_data,
+    #         batch_size = self.batch_size,
+    #         sampler = sampler,
+    #         num_workers = 3
+    #     )
 
 
 # if __name__ == '__main__':

@@ -37,14 +37,14 @@ if __name__ == '__main__':
     #     max_epoch = 10
     # )
 
-    train_dataset, validation_dataset, test_dataset = prepo.preprocessor()
+    train_dataset, validation_dataset, test_dataset = prepo.preprocessor_manual()
 
     mclass_trainer = MultiClassTrainer( dropout = 0.1, 
                                         lr = 2e-5, 
                                         max_epoch = 10, 
                                         device = "cuda", 
                                         n_class= len(prepo.label2id))
-                                        
+
     mclass_trainer.trainer(train_dataset, validation_dataset, test_dataset)
 
     # logger = TensorBoardLogger("logs", name="bert-multi-class")
