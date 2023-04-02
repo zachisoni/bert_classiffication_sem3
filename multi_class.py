@@ -33,7 +33,8 @@ if __name__ == '__main__':
     model = MultiClassModel(
         n_out = 5,
         dropout = 0.3,
-        lr = 1e-5
+        lr = 1e-5,
+        max_epoch = 10
     )
 
     train_dataset, validation_dataset, test_dataset = dm.preprocessor()
