@@ -88,7 +88,8 @@ class MultiClassTrainer(object):
     def validation_step(self):
         with torch.no_grad():
             
-            scores = {"loss": []}
+            scores = {  "loss": [],
+                        "f1_micro" : []}
             
             self.model.eval()
             
