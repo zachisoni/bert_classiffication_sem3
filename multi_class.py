@@ -1,7 +1,7 @@
 import argparse
 
 from utils.preprocessor import PreprocessorClass
-from models.multi_class_model import MultiClassModel
+from utils.multi_class_trainer import MultiClassTrainer
 
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
@@ -30,16 +30,17 @@ if __name__ == '__main__':
                            max_length = args.max_length)
 
     # Learning rate diganti 1e-3 ke 1e-5
-    model = MultiClassModel(
-        n_out = 5,
-        dropout = 0.3,
-        lr = 1e-5,
-        max_epoch = 10
-    )
+    # model = MultiClassModel(
+    #     n_out = 5,
+    #     dropout = 0.3,
+    #     lr = 1e-5,
+    #     max_epoch = 10
+    # )
 
     train_dataset, validation_dataset, test_dataset = dm.preprocessor()
 
-    model.trainer(train_dataset, validation_dataset, test_dataset)
+    mclass_trainer = MultiClassTrainer(dropout = 0.1, lr = 2e-5, max_epoch = 10, device = "cuda", n_class= len(dm.label2id))
+    mclass_trainer.trainer(train_dataset, validation_dataset, test_dataset)
 
     # logger = TensorBoardLogger("logs", name="bert-multi-class")
 
