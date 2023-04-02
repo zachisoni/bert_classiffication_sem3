@@ -110,7 +110,7 @@ class MultiClassModel(pl.LightningModule):
         predictions = []
 
         for output in outputs:
-            for out in outputs :
+            for out in output :
                 for out_lbl in out["labels"].detach().cpu():
                     labels.append(out_lbl)
                 for out_pred in out["predictions"].detach().cpu():
