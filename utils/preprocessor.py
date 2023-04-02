@@ -152,7 +152,7 @@ class PreprocessorClass(pl.LightningDataModule):
             test_data = self.arrange_data(data = test, type = "test")
         else :
             print("Load Preprocessed test data")
-            test_data = torch.load(f"{self.preprocessed_dir}/valid.pt")
+            test_data = torch.load(f"{self.preprocessed_dir}/test.pt")
 
         return train_data, valid_data, test_data
 
