@@ -105,10 +105,10 @@ class MultiClassModel(pl.LightningModule):
 
         return {"predictions": pred, "labels": true}
     
-    def trainer(self, train_dataset, validation_dataset, test_dataset):
-        self.train_dataset = train_dataset
-        self.validation_dataset = validation_dataset
-        self.test_dataset = test_dataset
+    def trainer(self, datasets):
+        self.train_dataset = datasets[0]
+        self.validation_dataset = datasets[1]
+        self.test_dataset = datasets[2]
         
         for epoch in range(self.max_epoch):
             print("Epoch = ", epoch)
