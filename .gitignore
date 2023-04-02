@@ -1,4 +1,4 @@
 checkpoints/
+data/preprocessed
 models/__pycache__
 utils/__pycache__
-bert_classification_semester3/
