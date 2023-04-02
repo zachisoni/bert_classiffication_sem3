@@ -40,7 +40,7 @@ if __name__ == '__main__':
 
     trainer = pl.Trainer(
         accelerator= args.accelerator,
-        gpus = args.gpu_id,
+        devices = args.gpu_id,
         num_nodes=args.num_nodes,
         max_epochs = 10,
         default_root_dir = "bert_classification_sem3/checkpoints/class",
