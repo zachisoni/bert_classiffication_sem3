@@ -116,7 +116,7 @@ class MultiClassModel(pl.LightningModule):
             print("Epoch = ", epoch)
             
             # Trainig Step
-            train_scores = self.train_step()
+            train_scores = self.training_step()
             validation_scores = self.validation_step()
             
             print(validation_scores)
