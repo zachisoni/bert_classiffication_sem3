@@ -133,7 +133,7 @@ class PreprocessorClass(pl.LightningDataModule):
             
             return train_tensor_dataset, valid_tensor_dataset
         else :
-            torch.save(tensor_dataset, f"{self.preprocessed_dir}/test.pt")
+            torch.save(tensor_dataset, f"{self.preprocessed_dir}/preprocessed/test.pt")
             return tensor_dataset
 
     def preprocessor(self,):
@@ -157,6 +157,10 @@ class PreprocessorClass(pl.LightningDataModule):
         return train_data, valid_data, test_data
 
     def preprocessor_manual(self):
+        if not os.path.exists(f"{self.preprocessed_dir}/preprocessed") :
+            os.mkdir(f"{self.preprocessed_dir}/preprocessed")
+        
+        self.preprocessed_dir = f"{self.preprocessed_dir}/preprocessed"
         train_data, valid_data, test_data = self.preprocessor()
 
 

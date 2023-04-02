@@ -23,7 +23,7 @@ def collect_parser():
 if __name__ == '__main__':
     args = collect_parser()
 
-    prepo = PreprocessorClass(preprocessed_dir = "bert_classification_sem3/data/preprocessed",
+    prepo = PreprocessorClass(preprocessed_dir = "bert_classification_sem3/data",
                            train_data_dir= args.train_data_dir,
                            test_data_dir= args.test_data_dir,
                            batch_size = args.batch_size,
