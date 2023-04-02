@@ -36,7 +36,9 @@ if __name__ == '__main__':
         lr = 1e-5
     )
 
-    model.trainer(dm.preprocessor)
+    train_dataset, validation_dataset, test_dataset = dm.preprocessor()
+
+    model.trainer(train_dataset, validation_dataset, test_dataset)
 
     # logger = TensorBoardLogger("logs", name="bert-multi-class")
 
