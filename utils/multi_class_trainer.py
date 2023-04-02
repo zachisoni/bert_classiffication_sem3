@@ -6,6 +6,7 @@ import torch.nn as nn
 
 from models.multi_class_model import MultiClassModel
 
+from sklearn.metrics import f1_score
 from tqdm import tqdm
 
 class MultiClassTrainer(object):
@@ -48,21 +49,31 @@ class MultiClassTrainer(object):
         self.model.train()
         self.model.zero_grad()
         
-        scores = {"loss": []}
+        scores = {  "loss": [],
+                    "f1_micro" : []}
         
         progress_train = tqdm(self.train_dataset)
         
         for batch in progress_train:
-            x_input_ids, _, _, y = batch
+            x_input_ids, x_token_type_ids, x_attention_mask, y = batch
             
             # arange text dan label ke memory GPU / CPU
             x_input_ids = x_input_ids.to(self.device)
+            x_token_type_ids = x_token_type_ids.to(self.device)
+            x_attention_mask = x_attention_mask.to(self.device)
             y = y.to(self.device)
 
             out = self.model(x_input_ids = x_input_ids)
+
             loss = self.criterion(out, target = y.float())
+
+            pred = out.argmax(1).cpu()
+            true = y.argmax(1).cpu()
+
+            f1_micro = round(f1_score(pred, true, average="micro"), 2)
             
             scores["loss"].append(loss.item())
+            scores["f1_micro"].append(f1_micro)
             
             loss.backward()
             self.optimizer.step()
@@ -70,7 +81,8 @@ class MultiClassTrainer(object):
         self.scheduler.step()
         
         return {
-            "loss": round(mean(scores["loss"]), 2)
+            "loss": round(mean(scores["loss"]), 2),
+            "f1_micro" : round(mean(scores["f1_micro"]), 2)
         }
             
     def validation_step(self):
@@ -93,23 +105,65 @@ class MultiClassTrainer(object):
                 out = self.model(x_input_ids = x_input_ids)
                 # Loss training pada model
                 loss = self.criterion(out, target = y.float())
+
+                pred = out.argmax(1).cpu()
+                true = y.argmax(1).cpu()
+
+                f1_micro = round(f1_score(pred, true, average="micro"), 2)
                 
                 scores["loss"].append(loss.item())
+                scores["f1_micro"].append(f1_micro)
             
             return {
-                "loss": round(mean(scores["loss"]), 2)
+                "loss": round(mean(scores["loss"]), 2),
+                "f1_micro" : round(mean(scores["f1_micro"]), 2)
             }
+    
+    def test_step(self):
+        with torch.no_grad():
+            scores = {  "loss" : [], 
+                        "f1_score" : []}
+            self.model.eval()
+
+            progress_val = tqdm(self.test_dataset)
+
+            for batch in progress_val :
+                x_input_ids, _, _, y = batch
+
+                x_input_ids = x_input_ids.to(self.device)
+                y = y.to(self.device)
+
+                out = self.model(x_input_ids = x_input_ids)
+
+                loss = self.criterion(out, target = y.float())
+
+                pred = out.argmax(1).cpu()
+                true = y.argmax(1).cpu()
+
+                f1_micro = round(f1_score(pred, true, average="mirco"), 2)
+
+                scores["loss"].append(loss.items())
+                scores["f1_micro"].append(f1_micro)
+
+            return {
+                "loss" : round(mean(scores["loss"]), 2),
+                "f1_micro" : round(mean(scores["f1_micro"]), 2)
+            }
+
     
     def trainer(self, train_dataset, validation_dataset, test_dataset):
         self.train_dataset = train_dataset
         self.validation_dataset = validation_dataset
         self.test_dataset = test_dataset
+
+        print(self.train_dataset)
         
         for epoch in range(self.max_epoch):
             print("Epoch = ", epoch)
             
             # Trainig Step
-            train_scores = self.train_step()
+            self.train_step()
+            print("test")
             validation_scores = self.validation_step()
             
             print(validation_scores)
