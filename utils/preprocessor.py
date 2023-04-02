@@ -63,8 +63,8 @@ class PreprocessorClass(pl.LightningDataModule):
         # Menghilangkan imbuhan
         return self.stemmer.stem(string)
 
-    #memuat data sesuai dengan file yg ada dan memasukkan menjadi variable setelah as 
     def load_data(self,):
+        #memuat data sesuai dengan file yg ada dan memasukkan menjadi variable setelah as 
        #keyword with seperti try..exception tetapi pada proses file
         with open(self.train_data_dir, "rb") as tdr:
             train_pkl = pickle.load(tdr)
@@ -133,7 +133,7 @@ class PreprocessorClass(pl.LightningDataModule):
             
             return train_tensor_dataset, valid_tensor_dataset
         else :
-            torch.save(tensor_dataset, f"{self.preprocessed_dir}/valid.pt")
+            torch.save(tensor_dataset, f"{self.preprocessed_dir}/test.pt")
             return tensor_dataset
 
     def preprocessor(self,):
